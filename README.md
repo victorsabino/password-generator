@@ -1,70 +1,29 @@
-# Getting Started with Create React App
+# Password Generator
+## Demo
+You can find the demo at: https://illustrious-seashore.surge.sh/
+## Overview
+This project is a simple password generator built with modern web technologies. It offers a clean and responsive user interface with support for customizable themes.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Technologies Used
 
-## Available Scripts
+- **Radix-UI**: Provides ready-to-use, customizable components for a sleek user interface.
+- **TypeScript**: Ensures type safety and reduces errors.
+- **SCSS**: Enhances CSS coding with variables for easy theme management (Dark Mode and Light Mode).
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- **Theme Support**: Switch between Dark Mode and Light Mode.
+- **Password Generation**: Generate strong passwords with customizable options.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Test Coverage
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+| File          | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s |
+|---------------|---------|----------|---------|---------|-------------------|
+| All files     | 96.49   | 50       | 92.3    | 94.59   |                   |
+| Button.tsx    | 100     | 100      | 100     | 100     |                   |
+| ...yField.tsx | 100     | 100      | 100     | 100     |                   |
+| ...erator.tsx | 97.36   | 50       | 100     | 96.55   | 22                |
+| Slider.tsx    | 88.88   | 100      | 50      | 75      | 20                |
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Testing
+Tests ensure the generator works as expected. They cover password generation, theme switching, and UI component interactions.
