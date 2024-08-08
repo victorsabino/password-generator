@@ -31,6 +31,6 @@ describe('DisplayField Component', () => {
 
   test('has correct CSS class', () => {
     const displayFieldElement = screen.getByRole('textbox').closest('div');
-    expect(displayFieldElement).toHaveClass('display-field');
+    expect(displayFieldElement).toHaveClass('password-display');
   });
 });

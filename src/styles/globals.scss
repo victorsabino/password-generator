@@ -22,10 +22,16 @@
   --slider-thumb-hover: #2563eb;
   --generate-button: #10b981;
   --generate-button-hover: #059669;
+  
+  --container-width: 100%;
+  --container-max-width: 400px;
+  --container-padding: 1rem;
 }
+
 #root, body {
   width: 100%;
 }
+
 .dark {
   --background: #0f172a;
   --foreground: #f8fafc;
@@ -57,7 +63,7 @@ body {
   transition: background-color var(--transition-duration), color var(--transition-duration);
   min-height: 100vh;
   margin: 0;
-  padding: 20px;
+  padding: var(--container-padding);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -65,23 +71,33 @@ body {
 
 .app-container {
   position: relative;
-  width: 100%;
-  max-width: 400px;
+  width: var(--container-width);
+  max-width: var(--container-max-width);
   margin: 0 auto;
 }
 
 .password-generator {
-  width: 100%;
-  padding: 2rem;
+  width: Calc(100% - 4rem);
+  padding: 1rem;
   background-color: var(--card);
   color: var(--card-foreground);
   border-radius: var(--radius);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   transition: background-color var(--transition-duration), color var(--transition-duration);
+
+  @media (min-width: 480px) {
+    padding: 2rem;
+  }
+
   h2 {
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
     font-weight: 600;
+
+    @media (min-width: 480px) {
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+    }
   }
 
   .password-display {
@@ -91,16 +107,21 @@ body {
     input {
       flex-grow: 1;
       padding: 0.75rem;
-      font-size: 1rem;
+      font-size: 0.875rem;
       border: 1px solid var(--input);
       border-radius: var(--radius) 0 0 var(--radius);
       background-color: var(--secondary);
       color: var(--secondary-foreground);
       transition: background-color var(--transition-duration), color var(--transition-duration), border-color var(--transition-duration);
+
+      @media (min-width: 480px) {
+        font-size: 1rem;
+      }
     }
 
     button {
       padding: 0.75rem 1rem;
+      font-size: 0.875rem;
       background-color: var(--primary);
       color: var(--primary-foreground);
       border: none;
@@ -108,14 +129,23 @@ body {
       cursor: pointer;
       transition: background-color var(--transition-duration), color var(--transition-duration);
 
+      @media (min-width: 480px) {
+        font-size: 1rem;
+      }
+
       &:hover {
         opacity: 0.9;
       }
     }
   }
+
   .range-slider {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     
+    @media (min-width: 480px) {
+      margin-bottom: 1.5rem;
+    }
+
     label {
       display: block;
       margin-bottom: 0.5rem;
@@ -177,11 +207,15 @@ body {
   .toggle-option {
     display: flex;
     align-items: center;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
+
+    @media (min-width: 480px) {
+      margin-bottom: 0.75rem;
+    }
 
     button {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       margin-right: 0.75rem;
       background-color: var(--secondary);
       border: 2px solid var(--primary);
@@ -191,6 +225,11 @@ body {
       align-items: center;
       justify-content: center;
       transition: background-color var(--transition-duration), border-color var(--transition-duration);
+
+      @media (min-width: 480px) {
+        width: 20px;
+        height: 20px;
+      }
 
       &[data-state="checked"] {
         background-color: var(--primary);
@@ -211,14 +250,19 @@ body {
   .button {
     width: 100%;
     padding: 0.75rem;
-    margin-top: 1.5rem;
-    font-size: 1rem;
+    margin-top: 1rem;
+    font-size: 0.875rem;
     background-color: var(--primary);
     color: var(--primary-foreground);
     border: none;
     border-radius: var(--radius);
     cursor: pointer;
     transition: background-color var(--transition-duration), color var(--transition-duration);
+
+    @media (min-width: 480px) {
+      margin-top: 1.5rem;
+      font-size: 1rem;
+    }
 
     &:hover {
       opacity: 0.9;
@@ -227,8 +271,10 @@ body {
 }
 
 .theme-switch {
+  width: 100%;
+  max-width: var(--container-max-width);
   margin: 10px auto;
-  width: 460px;
+  padding: 0 var(--container-padding);
   justify-content: center;
   display: flex;
   align-items: center;

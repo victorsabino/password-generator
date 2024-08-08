@@ -22,6 +22,6 @@ describe('Button Component', () => {
   test('has correct CSS class', () => {
     render(<Button label="Styled Button" onTrigger={() => {}} />);
     const buttonElement = screen.getByRole('button', { name: /styled button/i });
-    expect(buttonElement).toHaveClass('action-trigger');
+    expect(buttonElement).toHaveClass('button');
   });
 });

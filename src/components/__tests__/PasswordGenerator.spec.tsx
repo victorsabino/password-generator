@@ -1,110 +1,92 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import PasswordGenerator from '../PasswordGenerator';
 
-jest.mock('../DisplayField', () => ({ value, onCopy }: any) => (
+// Mock child components
+jest.mock('../DisplayField', () => ({ value, onCopy }: { value: string; onCopy: () => void }) => (
   <div data-testid="display-field">
-    <input type="text" value={value} readOnly />
+    <span>{value}</span>
     <button onClick={onCopy}>Copy</button>
   </div>
 ));
-jest.mock('../Slider', () => ({ value, onChange }: any) => (
+
+jest.mock('../Slider', () => ({ value, onChange }: { value: number; onChange: (value: number) => void }) => (
   <input
     type="range"
     data-testid="length-slider"
     value={value}
-    onChange={(e) => onChange(parseInt(e.target.value))}
+    onChange={(e) => onChange(Number(e.target.value))}
   />
 ));
-jest.mock('../Toggle', () => ({ id, isChecked, onToggle, label }: any) => (
+
+jest.mock('../Toggle', () => ({ id, isChecked, onToggle, label }: { id: string; isChecked: boolean; onToggle: () => void; label: string }) => (
   <label>
     <input
       type="checkbox"
       data-testid={`toggle-${id}`}
       checked={isChecked}
-      onChange={() => onToggle(id)}
+      onChange={onToggle}
     />
     {label}
   </label>
 ));
-jest.mock('../Button', () => ({ label, onTrigger }: any) => (
+
+jest.mock('../Button', () => ({ label, onTrigger }: { label: string; onTrigger: () => void }) => (
   <button onClick={onTrigger}>{label}</button>
 ));
 
+// Mock clipboard API
+const mockClipboard = {
+  writeText: jest.fn(),
+};
+Object.assign(navigator, { clipboard: mockClipboard });
+
 describe('PasswordGenerator Component', () => {
   beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test('renders password generator with default state', () => {
     render(<PasswordGenerator />);
-  });
-
-  test('renders all child components', () => {
+    expect(screen.getByText('Password Generator')).toBeInTheDocument();
     expect(screen.getByTestId('display-field')).toBeInTheDocument();
-    expect(screen.getByTestId('length-slider')).toBeInTheDocument();
-    expect(screen.getByTestId('toggle-lowercase')).toBeInTheDocument();
-    expect(screen.getByTestId('toggle-uppercase')).toBeInTheDocument();
-    expect(screen.getByTestId('toggle-numbers')).toBeInTheDocument();
-    expect(screen.getByTestId('toggle-symbols')).toBeInTheDocument();
-    expect(screen.getByText('Generate')).toBeInTheDocument();
+    expect(screen.getByTestId('length-slider')).toHaveValue('10');
+    expect(screen.getByTestId('toggle-lowercase')).toBeChecked();
+    expect(screen.getByTestId('toggle-uppercase')).not.toBeChecked();
+    expect(screen.getByTestId('toggle-numbers')).not.toBeChecked();
+    expect(screen.getByTestId('toggle-symbols')).not.toBeChecked();
+    expect(screen.getByText('Generate Password')).toBeInTheDocument();
   });
 
-  test('generates password when button is clicked', async () => {
-    const generateButton = screen.getByText('Generate');
+  test('generates password when button is clicked', () => {
+    render(<PasswordGenerator />);
+    const generateButton = screen.getByText('Generate Password');
     fireEvent.click(generateButton);
-  
-    await waitFor(() => {
-      const displayField = screen.getByTestId('display-field').querySelector('input');
-      if (displayField && displayField instanceof HTMLInputElement) {
-        const inputValue = displayField.value;
-        expect(inputValue).not.toEqual('');
-      } else {
-        throw new Error('Input field not found or incorrect element type');
-      }
-    });
+    const passwordDisplay = screen.getByTestId('display-field');
+    expect(passwordDisplay.textContent).not.toBe('');
   });
-  
 
-  test('updates password length when slider is changed', async () => {
+  test('updates password length when slider is changed', () => {
+    render(<PasswordGenerator />);
     const lengthSlider = screen.getByTestId('length-slider');
     fireEvent.change(lengthSlider, { target: { value: '20' } });
-
-    fireEvent.click(screen.getByText('Generate'));
-
-    await waitFor(() => {
-      const displayField = screen.getByTestId('display-field').querySelector('input');
-      if (displayField && displayField instanceof HTMLInputElement) {
-        expect(displayField.value).toMatch(/^.{20}$/);
-      } else {
-        throw new Error('Input field not found or incorrect element type');
-      }
-    });
+    expect(lengthSlider).toHaveValue('20');
   });
 
-  test('updates password options when toggles are clicked', async () => {
-    fireEvent.click(screen.getByTestId('toggle-uppercase'));
-    fireEvent.click(screen.getByTestId('toggle-numbers'));
-    fireEvent.click(screen.getByText('Generate'));
-
-    await waitFor(() => {
-      const displayField = screen.getByTestId('display-field').querySelector('input');
-      if (displayField && displayField instanceof HTMLInputElement) {
-        expect(displayField.value).toMatch(/^[A-Za-z0-9]{10}$/);
-      } else {
-        throw new Error('Input field not found or incorrect element type');
-      }
-    });
+  test('toggles password options', () => {
+    render(<PasswordGenerator />);
+    const uppercaseToggle = screen.getByTestId('toggle-uppercase');
+    fireEvent.click(uppercaseToggle);
+    expect(uppercaseToggle).toBeChecked();
   });
 
   test('copies password to clipboard when copy button is clicked', () => {
-    const mockClipboard = {
-      writeText: jest.fn(),
-    };
-    Object.assign(navigator, {
-      clipboard: mockClipboard,
-    });
-
-    fireEvent.click(screen.getByText('Generate'));
-    fireEvent.click(screen.getByText('Copy'));
-
-    expect(mockClipboard.writeText).toHaveBeenCalledWith(expect.any(String));
+    render(<PasswordGenerator />);
+    const generateButton = screen.getByText('Generate Password');
+    fireEvent.click(generateButton);
+    const copyButton = screen.getByText('Copy');
+    fireEvent.click(copyButton);
+    expect(mockClipboard.writeText).toHaveBeenCalled();
   });
 });

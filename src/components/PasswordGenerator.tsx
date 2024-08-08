@@ -54,21 +54,26 @@ const PasswordGenerator: React.FC = () => {
 
   return (
     <div className="password-generator">
-      <h2>Generator</h2>
+      <h2>Password Generator</h2>
       <DisplayField value={password} onCopy={copyToClipboard} />
-      <Slider value={length} min={1} max={30} onChange={setLength} />
+      <Slider 
+        value={length} 
+        min={1} 
+        max={30} 
+        onChange={setLength} 
+      />
       <div className="options">
         {Object.entries(options).map(([key, value]) => (
           <Toggle
             key={key}
             id={key as keyof PasswordOptions}
             isChecked={value}
-            onToggle={handleOptionChange}
-            label={`Include ${key}`}
+            onToggle={() => handleOptionChange(key as keyof PasswordOptions)}
+            label={`Include ${key.charAt(0).toUpperCase() + key.slice(1)}`}
           />
         ))}
       </div>
-      <Button label="Generate" onTrigger={generatePassword} />
+      <Button label="Generate Password" onTrigger={generatePassword} />
     </div>
   );
 };
